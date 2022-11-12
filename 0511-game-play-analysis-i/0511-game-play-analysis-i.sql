@@ -1,2 +1,3 @@
 # Write your MySQL query statement below
-select distinct player_id,min(event_date) as first_login from Activity group by player_id
+WITH SUB_TABLE AS (SELECT *, ROW_NUMBER() OVER(PARTITION BY player_id ORDER BY event_date) AS RN FROM Activity)
+SELECT player_id, event_date AS first_login FROM SUB_TABLE WHERE RN = 1
