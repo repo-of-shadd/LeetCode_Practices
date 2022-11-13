@@ -1,15 +1,12 @@
 # Write your MySQL query statement below
-WITH SUB AS (SELECT E.id, 
+Select  a.Department,a.Employee, a.Salary
+From (SELECT E.id, 
                     E.name AS Employee, 
                     E.salary AS Salary, 
                     E.departmentId, 
                     DP.name AS Department,
                     DENSE_RANK() OVER(PARTITION BY DP.name ORDER BY E.salary DESC) AS DR 
              FROM Employee AS E 
-             JOIN Department AS DP ON E.departmentId = DP.id)
+             JOIN Department AS DP ON E.departmentId = DP.id) a
              
-SELECT  Department, 
-        Employee, 
-        Salary 
-FROM    SUB
-WHERE   DR <= 3;
+WHERE   a.DR <= 3;
